@@ -46,6 +46,41 @@
           </label>
           <button type="submit" class="btn btn-primary auth-submit">Entrar</button>
           <p class="center hint auth-link"><a href="forgot.html">Esqueci minha senha</a></p>
+
+          <aside class="auth-demo" aria-label="Contas de acesso para teste">
+            <p class="auth-demo-title">Contas para teste</p>
+            <p class="auth-demo-hint">Clique em uma conta para preencher o formulário.</p>
+            <ul class="auth-demo-list">
+              <li>
+                <button type="button" class="auth-demo-item" data-email-local="admin" data-password="Admin@123">
+                  <span class="auth-demo-role">Admin</span>
+                  <span class="auth-demo-email">admin@financeiro.com.br</span>
+                  <span class="auth-demo-pass">Admin@123</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="auth-demo-item" data-email-local="maria" data-password="Demo@123">
+                  <span class="auth-demo-role">Maria Silva</span>
+                  <span class="auth-demo-email">maria@financeiro.com.br</span>
+                  <span class="auth-demo-pass">Demo@123</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="auth-demo-item" data-email-local="carlos" data-password="Demo@123">
+                  <span class="auth-demo-role">Carlos Oliveira</span>
+                  <span class="auth-demo-email">carlos@financeiro.com.br</span>
+                  <span class="auth-demo-pass">Demo@123</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="auth-demo-item" data-email-local="ana" data-password="Demo@123">
+                  <span class="auth-demo-role">Ana Souza</span>
+                  <span class="auth-demo-email">ana@financeiro.com.br</span>
+                  <span class="auth-demo-pass">Demo@123</span>
+                </button>
+              </li>
+            </ul>
+          </aside>
         </form>
 
         <form id="registerForm" class="auth-panel stack" role="tabpanel" aria-hidden="true" novalidate>
@@ -70,7 +105,30 @@
           <button type="submit" class="btn btn-primary auth-submit">Criar conta</button>
         </form>
       </div>
+
+      <footer class="auth-footer">
+        <button type="button" id="btnApiDocs" class="btn btn-ghost auth-docs-btn">
+          <span id="btnApiDocsIcon" aria-hidden="true"></span>
+          Ver documentação de API
+        </button>
+      </footer>
     </div>
+  </div>
+
+  <div id="apiDocsOverlay" class="api-docs-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="apiDocsTitle" hidden>
+    <header class="api-docs-header">
+      <div class="api-docs-header-text">
+        <h2 id="apiDocsTitle">Documentação da API</h2>
+        <p class="api-docs-sub">Endpoints REST gerados automaticamente pelo FastAPI (OpenAPI / Swagger).</p>
+      </div>
+      <div class="api-docs-actions">
+        <a href="/docs" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-accent-outline">Abrir em nova aba</a>
+        <button type="button" id="btnApiDocsClose" class="btn btn-sm btn-icon" aria-label="Fechar documentação">
+          <span id="btnApiDocsCloseIcon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+    <iframe id="apiDocsFrame" class="api-docs-frame" title="Documentação interativa da API" src="about:blank"></iframe>
   </div>
 
   <script src="js/icons.js"></script>

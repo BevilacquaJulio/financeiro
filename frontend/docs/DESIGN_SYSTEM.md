@@ -775,11 +775,21 @@ Páginas: `index.html`, `forgot.html`, `reset.html`, `status.html`
 ```
 .auth-wrap
   └── .auth-card
-        ├── .brand (logo + nome)
-        ├── .auth-sub (tagline/descrição)
-        ├── .tabs (se login/cadastro)
-        └── form.stack
+        ├── .auth-hero (logo + wordmark)
+        ├── .auth-tabs (Entrar / Criar conta)
+        ├── .auth-panels
+        │     └── form.auth-panel
+        │           └── .auth-demo (contas de teste — login)
+        ├── .auth-footer
+        │     └── .auth-docs-btn
+        └── (overlay) .api-docs-overlay
+              ├── .api-docs-header
+              └── iframe.api-docs-frame → /docs
 ```
+
+**Contas de teste (`.auth-demo`):** bloco abaixo do formulário de login com lista clicável (`.auth-demo-item`) que preenche e-mail e senha. Exibido apenas no painel Entrar.
+
+**Documentação API (`.api-docs-overlay`):** painel fullscreen com iframe Swagger (`/docs`). Botão `.auth-docs-btn` no rodapé do card. Fecha com Esc ou botão X.
 
 ### 11.2 App autenticado (usuário / admin)
 

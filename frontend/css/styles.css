@@ -299,7 +299,7 @@ textarea { resize: vertical; min-height: 70px; }
 }
 .auth-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -464,6 +464,138 @@ textarea { resize: vertical; min-height: 70px; }
 }
 .auth-checkbox:hover .auth-checkbox-box {
   border-color: var(--accent);
+}
+
+.auth-demo {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.auth-demo-title {
+  margin: 0 0 4px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.auth-demo-hint {
+  margin: 0 0 10px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  line-height: 1.45;
+}
+.auth-demo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.auth-demo-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 2px 10px;
+  align-items: center;
+  text-align: left;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    transform var(--transition);
+}
+.auth-demo-item:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  transform: translateY(-1px);
+}
+.auth-demo-item:active { transform: translateY(0); }
+.auth-demo-role {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+.auth-demo-email {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.auth-demo-pass {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-size: var(--fs-xs);
+  font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", monospace;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.auth-footer {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.auth-docs-btn {
+  width: 100%;
+  justify-content: center;
+  min-height: var(--touch-min, 44px);
+}
+
+/* ============ Painel documentacao API (login) ============ */
+body.api-docs-open { overflow: hidden; }
+.api-docs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  animation: fade var(--transition);
+}
+.api-docs-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.api-docs-header-text { min-width: 0; }
+.api-docs-header h2 {
+  font-size: var(--fs-md);
+  margin: 0 0 2px;
+}
+.api-docs-sub {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+.api-docs-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.api-docs-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: #fff;
 }
 
 /* ============ Boot loading (pos-login) ============ */
@@ -1466,6 +1598,19 @@ tbody tr.row-highlight .hint { color: var(--muted); }
   }
   .auth-hero { margin-bottom: 24px; }
   .auth-tabs button { min-height: var(--touch-min); padding: 12px; }
+  .auth-wrap--login { align-items: flex-start; }
+  .auth-card { max-height: calc(100dvh - 40px); overflow-y: auto; }
+  .auth-demo-pass { font-size: 10px; }
+
+  .api-docs-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 14px;
+  }
+  .api-docs-actions {
+    justify-content: space-between;
+  }
+  .api-docs-actions .btn-icon { min-height: var(--touch-min); min-width: var(--touch-min); }
 
   .settings-page { grid-template-columns: 1fr; gap: 20px; }
   .settings-nav {

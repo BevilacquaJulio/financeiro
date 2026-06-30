@@ -103,6 +103,59 @@ function validPassword(pwd) {
   );
 }
 
+function initDemoCredentials(loginEmailLocal, loginPassword) {
+  document.querySelectorAll(".auth-demo-item").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const local = btn.dataset.emailLocal || "";
+      const password = btn.dataset.password || "";
+      if (loginEmailLocal) {
+        loginEmailLocal.value = local;
+        loginEmailLocal.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+      if (loginPassword) loginPassword.value = password;
+      switchAuthTab("login");
+      UI.toast(`Conta ${local}${EMAIL_DOMAIN} preenchida.`, "success");
+    });
+  });
+}
+
+function initApiDocsPanel() {
+  const overlay = document.getElementById("apiDocsOverlay");
+  const frame = document.getElementById("apiDocsFrame");
+  const btnOpen = document.getElementById("btnApiDocs");
+  const btnClose = document.getElementById("btnApiDocsClose");
+  const iconOpen = document.getElementById("btnApiDocsIcon");
+  const iconClose = document.getElementById("btnApiDocsCloseIcon");
+  if (!overlay || !frame || !btnOpen || !btnClose) return;
+
+  if (iconOpen) iconOpen.innerHTML = ICON.bookOpen;
+  if (iconClose) iconClose.innerHTML = ICON.x;
+
+  const open = () => {
+    if (frame.getAttribute("src") === "about:blank") frame.setAttribute("src", "/docs");
+    overlay.classList.remove("hidden");
+    overlay.hidden = false;
+    document.body.classList.add("api-docs-open");
+    btnClose.focus();
+  };
+
+  const close = () => {
+    overlay.classList.add("hidden");
+    overlay.hidden = true;
+    document.body.classList.remove("api-docs-open");
+    btnOpen.focus();
+  };
+
+  btnOpen.addEventListener("click", open);
+  btnClose.addEventListener("click", close);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !overlay.hidden) close();
+  });
+}
+
 // ---------- index.html ----------
 function initLoginPage() {
   setLogo("logo");
@@ -120,10 +173,13 @@ function initLoginPage() {
   tabRegister.onclick = () => switchAuthTab("register");
 
   const loginEmailLocal = document.getElementById("loginEmailLocal");
+  const loginPassword = document.getElementById("loginPassword");
   const regEmailLocal = document.getElementById("regEmailLocal");
   const emailHint = document.getElementById("emailHint");
 
   bindEmailLocalInput(loginEmailLocal);
+  initDemoCredentials(loginEmailLocal, loginPassword);
+  initApiDocsPanel();
   bindEmailLocalInput(regEmailLocal, {
     onValidate(ok, cleaned) {
       if (!emailHint) return;
