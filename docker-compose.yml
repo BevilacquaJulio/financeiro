@@ -1,6 +1,6 @@
 services:
   app:
-    image: bl_financeiro
+    image: bl_financeiro-app
     build: .
     container_name: bl_financeiro
     restart: always
