@@ -1,0 +1,10 @@
+.git
+.gitignore
+.cursor
+**/__pycache__
+**/*.py[cod]
+**/.venv
+**/.env
+.env
+bigcontext_docker_compose_rules.md
+frontend/docs

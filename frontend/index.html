@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Financeiro - Entrar</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="login">
+  <div class="auth-wrap auth-wrap--login">
+    <div class="auth-card">
+      <header class="auth-hero">
+        <div class="auth-logo" id="logo" aria-hidden="true"></div>
+        <h1 class="auth-wordmark">Financeiro</h1>
+      </header>
+
+      <div class="auth-tabs" id="authTabs" role="tablist" data-active="login">
+        <span class="auth-tabs-indicator" aria-hidden="true"></span>
+        <button type="button" id="tabLogin" class="active" role="tab" aria-selected="true" aria-controls="loginForm">Entrar</button>
+        <button type="button" id="tabRegister" role="tab" aria-selected="false" aria-controls="registerForm">Criar conta</button>
+      </div>
+
+      <div class="auth-panels" id="authPanels" data-direction="left">
+        <form id="loginForm" class="auth-panel auth-panel--active stack" role="tabpanel" aria-hidden="false" novalidate>
+          <div class="field">
+            <label for="loginEmailLocal">E-mail</label>
+            <div class="email-field" id="loginEmailWrap">
+              <input type="text" id="loginEmailLocal" class="email-local" autocomplete="username" placeholder="você" required inputmode="email" spellcheck="false" />
+              <span class="email-suffix" aria-hidden="true">@financeiro.com.br</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="loginPassword">Senha</label>
+            <input type="password" id="loginPassword" autocomplete="current-password" required />
+          </div>
+          <label class="auth-checkbox" for="rememberMe">
+            <input type="checkbox" id="rememberMe" />
+            <span class="auth-checkbox-box" aria-hidden="true"></span>
+            <span>Lembrar de mim</span>
+          </label>
+          <button type="submit" class="btn btn-primary auth-submit">Entrar</button>
+          <p class="center hint auth-link"><a href="forgot.html">Esqueci minha senha</a></p>
+        </form>
+
+        <form id="registerForm" class="auth-panel stack" role="tabpanel" aria-hidden="true" novalidate>
+          <div class="field">
+            <label for="regName">Nome completo</label>
+            <input type="text" id="regName" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="regEmailLocal">E-mail</label>
+            <div class="email-field" id="regEmailWrap">
+              <input type="text" id="regEmailLocal" class="email-local" autocomplete="username" placeholder="você" required inputmode="email" spellcheck="false" />
+              <span class="email-suffix" aria-hidden="true">@financeiro.com.br</span>
+            </div>
+            <span class="hint" id="emailHint">Digite apenas o nome antes do @. Letras, números, pontos e hífens.</span>
+          </div>
+          <div class="field">
+            <label for="regPassword">Senha</label>
+            <input type="password" id="regPassword" autocomplete="new-password" required />
+            <div class="strength"><span id="strengthBar"></span></div>
+            <span class="hint" id="pwdHint">Mín. 8 caracteres, 1 maiúscula e 1 especial.</span>
+          </div>
+          <button type="submit" class="btn btn-primary auth-submit">Criar conta</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

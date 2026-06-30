@@ -1,0 +1,146 @@
+:root {
+  /* Paleta base (dark) */
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #181818;
+  --surface-3: #1f1f1f;
+  --border: #262626;
+  --border-strong: #333333;
+
+  --text: #ececec;
+  --muted: #8a8a8a;
+  --muted-2: #5f5f5f;
+
+  /* Accent — valores padrao; sobrescritos por Theme.applyAccentColor */
+  --accent: #4fffd6;
+  --accent-dim: rgba(79, 255, 214, 0.14);
+  --accent-glow: rgba(79, 255, 214, 0.35);
+  --accent-bg-1: rgba(79, 255, 214, 0.08);
+  --accent-bg-2: rgba(79, 255, 214, 0.05);
+  --accent-transition: 1s cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Estados semanticos */
+  --success: #4fffd6;
+  --danger: #ff5d6c;
+  --danger-dim: rgba(255, 93, 108, 0.14);
+  --warning: #ffce4f;
+  --warning-dim: rgba(255, 206, 79, 0.14);
+  --info: #6aa8ff;
+
+  /* Tipografia */
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-num: "Inter", system-ui, sans-serif;
+
+  /* Escala */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.85rem;
+  --fs-md: 0.95rem;
+  --fs-lg: 1.15rem;
+  --fs-xl: 1.6rem;
+  --fs-2xl: 2.4rem;
+  --fs-3xl: 3.2rem;
+
+  /* Espacamento / raio */
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  --shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.35);
+
+  --transition: 180ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Espacamento de pagina */
+  --page-x: 32px;
+  --page-y: 28px;
+  --section-gap: 28px;
+  --card-pad: 20px;
+  --stack-gap: 14px;
+  --touch-min: 44px;
+
+  /* Scrollbars nativos — paleta dark */
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fundo com leve textura/glow de assinatura */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1100px 600px at 88% -8%, var(--accent-bg-1), transparent 60%),
+    radial-gradient(900px 500px at -5% 110%, var(--accent-bg-2), transparent 55%);
+  pointer-events: none;
+  transition: background var(--accent-transition);
+}
+
+html.theme-accent-animating body::before {
+  will-change: background;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .auth-card { animation: none; }
+  .auth-tabs-indicator,
+  .auth-panel { transition: none; }
+  .boot-loading__spinner { animation: none; border-top-color: var(--boot-accent); }
+}
+
+html.scroll-locked,
+html.scroll-locked body {
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-x: 20px;
+    --page-y: 20px;
+    --section-gap: 24px;
+    --card-pad: 18px;
+    --stack-gap: 16px;
+    --fs-xl: 1.45rem;
+    --fs-2xl: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --page-x: 16px;
+    --page-y: 18px;
+    --section-gap: 20px;
+    --card-pad: 16px;
+  }
+}

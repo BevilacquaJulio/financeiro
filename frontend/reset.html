@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Financeiro - Redefinir senha</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="reset">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="brand">
+        <span class="logo" id="logo" aria-hidden="true"></span>
+        <strong>Financeiro</strong>
+      </div>
+      <p class="auth-sub">Defina sua nova senha.</p>
+
+      <form id="resetForm" class="stack" novalidate>
+        <div class="field">
+          <label for="resetPassword">Nova senha</label>
+          <input type="password" id="resetPassword" autocomplete="new-password" required />
+          <div class="strength"><span id="strengthBar"></span></div>
+          <span class="hint">Mín. 8 caracteres, 1 maiúscula e 1 especial.</span>
+        </div>
+        <div class="field">
+          <label for="resetConfirm">Confirmar senha</label>
+          <input type="password" id="resetConfirm" autocomplete="new-password" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="justify-content:center">Redefinir senha</button>
+      </form>
+
+      <div id="resetError" class="hidden center">
+        <p class="hint error">Link inválido ou ausente. Solicite uma nova recuperação.</p>
+        <a class="btn btn-ghost" href="forgot.html" style="justify-content:center">Nova solicitação</a>
+      </div>
+
+      <div id="resetDone" class="status-card hidden" style="text-align:center">
+        <div class="status-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <p class="auth-sub">Senha redefinida com sucesso!</p>
+        <a class="btn btn-primary" href="index.html" style="justify-content:center">Ir para o login</a>
+      </div>
+    </div>
+  </div>
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

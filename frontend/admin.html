@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Financeiro - Painel Admin</title>
+  <style>
+    html.boot-loading-pending .app { visibility: hidden !important; }
+    html.boot-loading-pending #boot-loading-static { display: grid !important; }
+    #boot-loading-static { display: none; position: fixed; inset: 0; z-index: 500; background: #0a0a0a; }
+  </style>
+  <script src="js/boot-pending.js"></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="admin">
+  <div id="boot-loading-static" class="boot-loading boot-loading--visible" aria-hidden="true" style="--boot-accent:#4fffd6;--boot-accent-dim:rgba(79,255,214,0.14);--boot-accent-glow:rgba(79,255,214,0.35)">
+    <div class="boot-loading__inner">
+      <div class="boot-loading__glow" aria-hidden="true"></div>
+      <div class="boot-loading__logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M21 7H7a2 2 0 0 0 0 4h14"/><circle cx="16" cy="13" r="1"/></svg>
+      </div>
+      <div class="boot-loading__spinner" aria-hidden="true"></div>
+      <p class="boot-loading__label">Entrando…</p>
+    </div>
+  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="logo" id="logo" aria-hidden="true"></span>
+        <strong>Admin</strong>
+      </div>
+      <nav class="nav" id="nav"></nav>
+      <div class="sidebar-footer">
+        <button class="btn btn-ghost" id="logoutBtn" style="width:100%;justify-content:center" aria-label="Sair">
+          <span id="logoutIcon" aria-hidden="true"></span><span class="label">Sair</span>
+        </button>
+        <div class="user-chip">
+          <div class="avatar" id="userAvatar"></div>
+          <div class="meta"><b id="userName">-</b><span id="userEmail">-</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="content"><div id="view"></div></main>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
