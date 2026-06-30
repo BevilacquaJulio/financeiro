@@ -1,7 +1,7 @@
 services:
-  financeiro:
+  app:
     build: .
-    container_name: financeiro
+    container_name: bl_financeiro
     restart: always
     env_file:
       - .env
@@ -11,11 +11,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
-      - "traefik.http.routers.financeiro.rule=Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`)"
-      - traefik.http.routers.financeiro.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
-      - traefik.http.routers.financeiro.tls=true
-      - traefik.http.routers.financeiro.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
-      - traefik.http.services.financeiro.loadbalancer.server.port=8000
+      - "traefik.http.routers.bl_financeiro.rule=Host(`${DOMAIN}`)"
+      - traefik.http.routers.bl_financeiro.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.bl_financeiro.tls=true
+      - traefik.http.routers.bl_financeiro.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.bl_financeiro.loadbalancer.server.port=8000
 
 networks:
   mysql_shared:
