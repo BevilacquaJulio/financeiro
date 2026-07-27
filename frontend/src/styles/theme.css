@@ -733,6 +733,7 @@ html.scroll-locked body {
   font-weight: var(--fw-black);
   letter-spacing: var(--tracking-tighter);
   line-height: 1;
+  white-space: nowrap;
   transition: color var(--transition);
 }
 

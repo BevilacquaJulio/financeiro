@@ -2,7 +2,7 @@
 
 export function fmtMoney(value: number | null | undefined, currency = 'R$'): string {
   const n = Number(value ?? 0);
-  return `${currency} ${n.toLocaleString('pt-BR', {
+  return `${currency}\u00A0${n.toLocaleString('pt-BR', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
