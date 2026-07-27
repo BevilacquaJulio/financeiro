@@ -15,6 +15,12 @@ export const PASSWORD_RULE =
 
 export const EMAIL_LOCAL_RULE = /^[a-z0-9][a-z0-9._-]*$/;
 
+/** Credenciais do usuario comum de teste (espelham `sql/demo-user.sql`). */
+export const DEMO_USER = {
+  email: 'demo',
+  password: 'Demo@123',
+} as const;
+
 /** O campo do formulario recebe SO a parte local; o dominio e fixo na UI. */
 export const emailLocalSchema = z
   .string()

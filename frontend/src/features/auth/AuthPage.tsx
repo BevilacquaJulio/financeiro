@@ -8,7 +8,7 @@ import { api, ApiError, Auth } from '../../lib/api';
 import type { TokenOut } from '../../lib/types';
 import { ICON } from '../../lib/icons';
 import { useUi } from '../../components/UiProvider';
-import { EMAIL_DOMAIN, PASSWORD_RULE, emailLocalSchema } from './rules';
+import { DEMO_USER, EMAIL_DOMAIN, PASSWORD_RULE, emailLocalSchema } from './rules';
 
 /**
  * Login + cadastro na mesma tela, como no `index.html` atual.
@@ -155,8 +155,14 @@ function LoginForm({ onError }: { onError: (m: string) => void }) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginForm>({ resolver: zodResolver(loginSchema) });
+
+  const fillDemoCredentials = () => {
+    setValue('email', DEMO_USER.email, { shouldValidate: true });
+    setValue('password', DEMO_USER.password, { shouldValidate: true });
+  };
 
   const submit = handleSubmit(async (values) => {
     setBusy(true);
@@ -217,6 +223,17 @@ function LoginForm({ onError }: { onError: (m: string) => void }) {
       <button type="submit" className="btn btn-primary btn-block" disabled={busy}>
         {busy ? 'Entrando…' : 'Entrar'}
       </button>
+
+      {import.meta.env.DEV && (
+        <button
+          type="button"
+          className="btn btn-ghost btn-block"
+          onClick={fillDemoCredentials}
+          disabled={busy}
+        >
+          Usar conta demo
+        </button>
+      )}
 
       <div className="auth-links">
         <a href="/forgot">Esqueci minha senha</a>

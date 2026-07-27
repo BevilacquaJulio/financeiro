@@ -56,6 +56,7 @@ backend/prisma/schema.handwritten.prisma.bak
 *.sqlite
 *.sqlite3
 *.db
+sql/
 
 # --- Docker ------------------------------------------------------------------
 docker-compose.override.yml
@@ -83,4 +84,5 @@ $RECYCLE.BIN/
 *.bak
 *.orig
 .cursor
+skills
 
