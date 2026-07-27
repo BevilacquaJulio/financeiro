@@ -1,24 +1,74 @@
-# Espelha o compose do sistema Python: mesma rede, mesmo Traefik, mesma porta
-# interna. Troque o container_name/router quando for rodar os dois em paralelo.
 services:
-  app:
-    image: cb_financeiro_node-app
-    build: .
-    container_name: cb_financeiro_node
-    restart: always
+  api:
+    image: bl_financeiro-api
+    build: ./backend
+    container_name: bl_financeiro-api
+    restart: unless-stopped
     env_file:
       - .env
     networks:
       - mysql_shared
       - traefik
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
-      - "traefik.http.routers.cb_financeiro_node.rule=Host(`${DOMAIN}`)"
-      - traefik.http.routers.cb_financeiro_node.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
-      - traefik.http.routers.cb_financeiro_node.tls=true
-      - traefik.http.routers.cb_financeiro_node.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
-      - traefik.http.services.cb_financeiro_node.loadbalancer.server.port=8000
+      - "traefik.http.routers.bl_financeiro-api.rule=Host(`api.${DOMAIN}`)"
+      - traefik.http.routers.bl_financeiro-api.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.bl_financeiro-api.tls=true
+      - traefik.http.routers.bl_financeiro-api.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.bl_financeiro-api.loadbalancer.server.port=8000
+    mem_limit: 512m
+    cpus: 0.75
+
+  web:
+    image: bl_financeiro-app
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: https://api.${DOMAIN}/api
+    container_name: bl_financeiro-app
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - traefik
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - "traefik.http.routers.bl_financeiro-web.rule=Host(`${DOMAIN}`)"
+      - traefik.http.routers.bl_financeiro-web.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.bl_financeiro-web.tls=true
+      - traefik.http.routers.bl_financeiro-web.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.bl_financeiro-web.loadbalancer.server.port=80
+    mem_limit: 128m
+    cpus: 0.25
+
+  migrate:
+    image: bl_financeiro-migrate
+    container_name: bl_financeiro-migrate
+    build:
+      context: ./backend
+      target: build
+    profiles:
+      - tools
+    env_file:
+      - .env
+    networks:
+      - mysql_shared
+    command: ["npx", "prisma", "migrate", "deploy"]
+    mem_limit: 512m
+    cpus: 0.5
 
 networks:
   mysql_shared:

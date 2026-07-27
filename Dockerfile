@@ -1,6 +1,8 @@
 # =============================================================================
-# Imagem unica: Nest serve a API em /api E o SPA buildado em /
-# (equivalente ao que o FastAPI fazia com StaticFiles).
+# LEGADO — imagem unica (Nest servia API + SPA). Substituído por:
+#   backend/Dockerfile  -> bl_financeiro-api
+#   frontend/Dockerfile -> bl_financeiro-app
+# Use `docker compose up -d --build` na raiz (ver docker-compose.yml).
 # =============================================================================
 
 # --- 1) build do SPA ---------------------------------------------------------

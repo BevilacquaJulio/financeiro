@@ -13,6 +13,9 @@
  */
 import type { UserOut } from './types';
 
+/** Em producao vem do build arg VITE_API_URL (ex.: https://api.dominio.com/api). */
+const API_ROOT = (import.meta.env.VITE_API_URL ?? '').replace(/\/+$/, '') || '/api';
+
 const TOKEN_KEY = 'fin_token';
 const USER_KEY = 'fin_user';
 const AUTH_EVENT = 'fin-auth-change';
@@ -93,7 +96,7 @@ export async function api<T = unknown>(
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (auth && Auth.token) headers.Authorization = `Bearer ${Auth.token}`;
 
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`${API_ROOT}${path}`, {
     method,
     headers,
     body: body !== undefined ? JSON.stringify(body) : undefined,

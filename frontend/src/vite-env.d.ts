@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_EMAIL_DOMAIN?: string;
+  readonly VITE_API_URL?: string;
 }
 
 interface ImportMeta {
