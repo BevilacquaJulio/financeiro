@@ -76,12 +76,19 @@ grep -q '^NODE_ENV='     .env || echo 'NODE_ENV=development' >> .env
 grep -q '^PORT='         .env || echo 'PORT=8000' >> .env
 grep -q '^CORS_ORIGINS=' .env || echo 'CORS_ORIGINS=http://localhost:5173' >> .env
 grep -q '^DOMAIN='       .env || echo 'DOMAIN=' >> .env
+grep -q '^TRAEFIK_ENTRYPOINT=' .env || echo 'TRAEFIK_ENTRYPOINT=websecure' >> .env
+grep -q '^TRAEFIK_CERT_RESOLVER=' .env || echo 'TRAEFIK_CERT_RESOLVER=letsencrypt' >> .env
 
-# DATABASE_URL: a CLI do Prisma não executa o código da aplicação, então não
-# adianta a URL ser montada em runtime pelo configuration.ts — sem esta linha,
-# `prisma db pull` aborta com "Environment variable not found: DATABASE_URL".
-if ! grep -q '^DATABASE_URL=' .env; then
-  printf 'DATABASE_URL=%s\n' "$(node backend/scripts/database-url.mjs)" >> .env
+# DATABASE_URL é calculada das MYSQL_* para evitar que o usuário tenha de
+# manter a mesma conexão em dois formatos. O prisma.config.ts também sabe
+# derivá-la; gravamos aqui para facilitar diagnóstico e ferramentas externas.
+if ! grep -Eq '^DATABASE_URL=.+$' .env; then
+  DATABASE_URL_VALUE=$(node backend/scripts/database-url.mjs)
+  if grep -q '^DATABASE_URL=' .env; then
+    sed -i "s|^DATABASE_URL=.*$|DATABASE_URL=${DATABASE_URL_VALUE}|" .env
+  else
+    printf 'DATABASE_URL=%s\n' "$DATABASE_URL_VALUE" >> .env
+  fi
   ok "DATABASE_URL gravada no .env (derivada das MYSQL_*)"
 fi
 set -a; . ./.env; set +a
@@ -225,7 +232,10 @@ cat <<EOF
       cd backend  && npm run start:dev      # http://localhost:${PORT:-8000}
       cd frontend && npm run dev            # http://localhost:5173
 
-  Rodar como o sistema antigo rodava (imagem única, Nest servindo tudo):
+  Aplicar migrations pendentes (serviço one-off, nunca roda no startup):
+      docker compose run --rm --build migrate
+
+  Subir API e frontend:
       docker compose up -d --build
 
   Swagger: http://localhost:${PORT:-8000}/api/docs

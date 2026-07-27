@@ -12,7 +12,7 @@
     "lint": "eslint \"src/**/*.ts\"",
     "test": "vitest run",
     "_comment_prisma": "A CLI do Prisma nao executa o codigo da aplicacao: ela le DATABASE_URL do ambiente ou de um .env no diretorio atual. O .env do projeto mora na RAIZ, um nivel acima — dai o dotenv -e ../.env em todo comando prisma.",
-    "_comment_prisma_dep": "`prisma` fica em dependencies, nao em devDependencies: o container roda `prisma migrate deploy` no start (ver CMD do Dockerfile), depois de um `npm ci --omit=dev`. Como devDependency, o npx teria que baixar a CLI do registry a cada boot — rede obrigatoria e versao a deriva.",
+    "_comment_prisma_dep": "A CLI `prisma` fica em devDependencies: migrations rodam no servico one-off `migrate`, que usa o stage build. A API de producao recebe apenas o client gerado e nunca executa a CLI.",
     "prisma": "dotenv -e ../.env -- prisma",
     "prisma:generate": "dotenv -e ../.env -- prisma generate",
     "prisma:pull": "dotenv -e ../.env -- prisma db pull",
@@ -33,7 +33,6 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "nodemailer": "^7.0.0",
-    "prisma": "^7.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -46,6 +45,7 @@
     "@types/nodemailer": "^6.4.17",
     "dotenv-cli": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "prisma": "^7.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   }

@@ -16,10 +16,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 RUN apk add --no-cache wget
 COPY package*.json ./
-COPY prisma ./prisma
-COPY prisma.config.ts ./
-ARG DATABASE_URL="mysql://placeholder:placeholder@localhost:3306/placeholder"
-RUN npm ci --omit=dev && npx prisma generate
+RUN npm ci --omit=dev --omit=optional
+COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /app/dist ./dist
 USER node
 EXPOSE 8000

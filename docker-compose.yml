@@ -46,11 +46,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
-      - "traefik.http.routers.bl_financeiro-web.rule=Host(`${DOMAIN}`)"
-      - traefik.http.routers.bl_financeiro-web.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
-      - traefik.http.routers.bl_financeiro-web.tls=true
-      - traefik.http.routers.bl_financeiro-web.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
-      - traefik.http.services.bl_financeiro-web.loadbalancer.server.port=80
+      - "traefik.http.routers.bl_financeiro-app.rule=Host(`${DOMAIN}`)"
+      - traefik.http.routers.bl_financeiro-app.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.bl_financeiro-app.tls=true
+      - traefik.http.routers.bl_financeiro-app.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.bl_financeiro-app.loadbalancer.server.port=80
     mem_limit: 128m
     cpus: 0.25
 

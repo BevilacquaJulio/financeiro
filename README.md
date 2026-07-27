@@ -1,7 +1,8 @@
 # Financeiro
 
 Sistema de controle financeiro pessoal. **NestJS + Prisma + MySQL** no backend,
-**React + Vite + TypeScript** no frontend, servidos por um container só.
+**React + Vite + TypeScript** no frontend. Em produção, API e frontend rodam em
+containers separados atrás do Traefik e usam o MySQL compartilhado.
 
 O sistema Python (FastAPI + HTML/JS puro) foi substituído em 25/07/2026 e
 removido do repositório — continua recuperável no histórico do git:
@@ -36,6 +37,26 @@ nos scripts npm) e o `docker compose` (`env_file`). Se ele não existir, o
 Salve com quebra de linha LF: com CRLF o compose injeta um `\r` no fim de cada
 valor e o `JWT_SECRET` deixa de bater.
 
+O `.env.example` espelha as chaves do **Financeiro**, não as do G5. As chaves
+de infraestrutura compartilhada seguem o mesmo padrão (`DOMAIN`, `TRAEFIK_*`,
+`MYSQL_*`, `NODE_ENV` e `PORT`), mas o Financeiro mantém configurações próprias:
+`JWT_SECRET` preserva os tokens do sistema legado, `CORS_ORIGINS` aceita mais
+de uma origem e `APP_BASE_URL` monta links de redefinição de senha. Variáveis
+de refresh token, SSL e demonstração do G5 não são consumidas por este projeto.
+
+Para preparar produção, copie o modelo e altere somente os marcadores:
+
+```bash
+cp .env.example .env
+# Procure por ALTERE_AQUI e exemplo.com.br.
+```
+
+Mantenha `NODE_ENV=production` no Docker/VPS. Use `development` apenas ao
+executar o backend e o frontend localmente com os comandos `start:dev` e `dev`.
+
+Não preencha `DATABASE_URL` manualmente: ela é calculada a partir das
+configurações `MYSQL_*`.
+
 Se o `mysqldump` não estiver instalado, ele para e explica. Faça o dump por
 outro meio e rode `bash setup.sh --skip-backup`.
 
@@ -46,7 +67,8 @@ Depois:
 cd backend  && npm run start:dev     # http://localhost:8000  · docs em /api/docs
 cd frontend && npm run dev           # http://localhost:5173
 
-# produção — imagem única, Nest servindo API + SPA
+# produção — migrations primeiro; depois API + frontend
+docker compose run --rm --build migrate
 docker compose up -d --build
 ```
 
@@ -62,9 +84,9 @@ mesmo algoritmo, mesmo payload).
 ```
 financeiro/
 ├─ setup.sh                    # instalação completa em um comando
-├─ Dockerfile                  # multi-stage: builda SPA + API, roda os dois
-├─ docker-compose.yml          # rede mysql_shared + Traefik (igual ao antigo)
+├─ docker-compose.yml          # API, frontend e migrador one-off
 ├─ backend/                    # NestJS + Prisma
+│  ├─ Dockerfile               # build Nest/Prisma + runtime sem CLI do Prisma
 │  ├─ prisma/schema.prisma     # sobrescrito pelo db pull no setup
 │  ├─ scripts/                 # backup e gerador de fixtures
 │  ├─ src/
@@ -75,6 +97,8 @@ financeiro/
 │  │  └─ finance/              # items · expenses · trash · categories · dashboard
 │  └─ test/                    # paridade bcrypt / JWT / arredondamento / regras
 ├─ frontend/                   # React + Vite
+│  ├─ Dockerfile               # build Vite + runtime nginx
+│  ├─ nginx.conf               # fallback SPA, gzip e cache
 │  └─ src/
 │     ├─ styles/               # tokens.css (primitivos) + theme.css (semântico)
 │     ├─ lib/                  # cliente HTTP, sessão, formatação, ícones
@@ -105,8 +129,15 @@ Prisma sobre um banco já populado:
    `setup.sh` descobre o nome sozinho.
 
 `prisma migrate dev` **nunca** deve ser usado aqui: contra um banco com dados
-ele pode dropar tabelas. O `Dockerfile` roda `migrate deploy`, que só aplica
-migrações já criadas e revisadas.
+ele pode dropar tabelas. Em produção, `migrate deploy` roda explicitamente no
+serviço one-off antes da troca dos containers:
+
+```bash
+docker compose run --rm --build migrate
+docker compose up -d --build
+```
+
+A API não carrega a CLI do Prisma e nunca executa migration no startup.
 
 ---
 

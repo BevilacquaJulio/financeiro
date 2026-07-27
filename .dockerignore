@@ -1,5 +1,0 @@
-**/node_modules
-**/dist
-**/.env
-**/*.log
-backend/test/fixtures/python-tokens.json
