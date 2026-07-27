@@ -21,7 +21,7 @@ services:
       - traefik.http.routers.bl_financeiro-api.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
       - traefik.http.routers.bl_financeiro-api.tls=true
       - traefik.http.routers.bl_financeiro-api.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
-      - traefik.http.services.bl_financeiro-api.loadbalancer.server.port=8000
+      - traefik.http.services.bl_financeiro-api.loadbalancer.server.port=${PORT:-8000}
     mem_limit: 512m
     cpus: 0.75
 
