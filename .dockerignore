@@ -1,10 +1,5 @@
-.git
-.gitignore
-.cursor
-**/__pycache__
-**/*.py[cod]
-**/.venv
+**/node_modules
+**/dist
 **/.env
-.env
-bigcontext_docker_compose_rules.md
-frontend/docs
+**/*.log
+backend/test/fixtures/python-tokens.json

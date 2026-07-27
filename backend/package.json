@@ -1,0 +1,52 @@
+{
+  "name": "financeiro-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend NestJS do Sistema de Controle Financeiro (migracao FastAPI -> NestJS).",
+  "scripts": {
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "start:prod": "node dist/main.js",
+    "typecheck": "tsc --noEmit -p tsconfig.build.json",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "vitest run",
+    "_comment_prisma": "A CLI do Prisma nao executa o codigo da aplicacao: ela le DATABASE_URL do ambiente ou de um .env no diretorio atual. O .env do projeto mora na RAIZ, um nivel acima — dai o dotenv -e ../.env em todo comando prisma.",
+    "_comment_prisma_dep": "`prisma` fica em dependencies, nao em devDependencies: o container roda `prisma migrate deploy` no start (ver CMD do Dockerfile), depois de um `npm ci --omit=dev`. Como devDependency, o npx teria que baixar a CLI do registry a cada boot — rede obrigatoria e versao a deriva.",
+    "prisma": "dotenv -e ../.env -- prisma",
+    "prisma:generate": "dotenv -e ../.env -- prisma generate",
+    "prisma:pull": "dotenv -e ../.env -- prisma db pull",
+    "prisma:studio": "dotenv -e ../.env -- prisma studio",
+    "prisma:deploy": "dotenv -e ../.env -- prisma migrate deploy"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/jwt": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/serve-static": "^5.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "@prisma/adapter-mariadb": "^7.0.0",
+    "@prisma/client": "^7.0.0",
+    "bcryptjs": "^3.0.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "nodemailer": "^7.0.0",
+    "prisma": "^7.0.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.0",
+    "@types/nodemailer": "^6.4.17",
+    "dotenv-cli": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

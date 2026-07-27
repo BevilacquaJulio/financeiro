@@ -1,8 +1,10 @@
+# Espelha o compose do sistema Python: mesma rede, mesmo Traefik, mesma porta
+# interna. Troque o container_name/router quando for rodar os dois em paralelo.
 services:
   app:
-    image: bl_financeiro-app
+    image: cb_financeiro_node-app
     build: .
-    container_name: bl_financeiro
+    container_name: cb_financeiro_node
     restart: always
     env_file:
       - .env
@@ -12,11 +14,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
-      - "traefik.http.routers.bl_financeiro.rule=Host(`${DOMAIN}`)"
-      - traefik.http.routers.bl_financeiro.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
-      - traefik.http.routers.bl_financeiro.tls=true
-      - traefik.http.routers.bl_financeiro.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
-      - traefik.http.services.bl_financeiro.loadbalancer.server.port=8000
+      - "traefik.http.routers.cb_financeiro_node.rule=Host(`${DOMAIN}`)"
+      - traefik.http.routers.cb_financeiro_node.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.cb_financeiro_node.tls=true
+      - traefik.http.routers.cb_financeiro_node.tls.certresolver=${TRAEFIK_CERT_RESOLVER:-letsencrypt}
+      - traefik.http.services.cb_financeiro_node.loadbalancer.server.port=8000
 
 networks:
   mysql_shared:

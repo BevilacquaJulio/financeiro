@@ -1,17 +1,86 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.venv/
-venv/
-env/
+# =============================================================================
+# Financeiro — .gitignore
+# NestJS + Prisma (backend/) · React + Vite (frontend/) · Docker + Traefik
+# Desenvolvido em Windows.
+# =============================================================================
 
-# Ambiente
+# --- Segredos ----------------------------------------------------------------
+# O .env e UNICO e mora na raiz (Nest, CLI do Prisma e docker compose leem dele).
+# As duas primeiras linhas sao necessarias: `.env.*` NAO casa com `.env`.
+# A negacao precisa vir DEPOIS das regras de ignore, senao nao tem efeito.
 .env
+.env.*
+!.env.example
 
-# Editores
-.vscode/
-.idea/
+# --- Dependencias ------------------------------------------------------------
+node_modules/
+
+# NAO ignore package-lock.json: e ele que garante build reproduzivel, e o
+# `npm ci` do Dockerfile falha sem ele.
+
+# --- Build -------------------------------------------------------------------
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# --- Cache -------------------------------------------------------------------
+.vite/
+.cache/
+*.local
+
+# --- Logs --------------------------------------------------------------------
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# --- Testes ------------------------------------------------------------------
+coverage/
+.vitest-cache/
+
+# --- Prisma ------------------------------------------------------------------
+# O client gerado vai para node_modules/.prisma/client (ver `output` no
+# schema.prisma), entao ja esta coberto pela regra de node_modules.
+#
+# Aqui fica so o artefato temporario do baseline feito pelo setup.sh.
+# backend/prisma/migrations/ NAO entra: as migracoes sao versionadas de proposito.
+backend/prisma/schema.handwritten.prisma.bak
+
+# --- Banco de dados ----------------------------------------------------------
+# Dump tem dado real de usuario. O backend/scripts/00-backup.sh gera .sql.gz.
+# ATENCAO: nao ignore `*.sql` — docs/legado/ guarda o DDL e as migracoes
+# historicas do sistema Python, versionados de proposito.
+*.sql.gz
+*.dump
+*.sqlite
+*.sqlite3
+*.db
+
+# --- Docker ------------------------------------------------------------------
+docker-compose.override.yml
+secrets/
+*.pid
+
+# --- Sistema operacional -----------------------------------------------------
+# Desktop.ini nao e opcional aqui: o projeto vive numa pasta sincronizada do
+# Windows, que recria esse arquivo sozinho.
+Desktop.ini
+Thumbs.db
+ehthumbs.db
+$RECYCLE.BIN/
 .DS_Store
+._*
+*~
+
+# --- Editores ----------------------------------------------------------------
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+*.bak
+*.orig
 .cursor
 

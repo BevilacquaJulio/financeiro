@@ -1,0 +1,175 @@
+// ---------------------------------------------------------------------------
+// Schema Prisma — Sistema de Controle Financeiro
+//
+// Reconciliado com `backend/schema.sql` (o DDL real do sistema Python).
+//
+// AMBIGUIDADE CONHECIDA: o banco pode ter sido criado de DUAS formas —
+// pelo `schema.sql` (à mão) ou pelo `Base.metadata.create_all()` do SQLAlchemy
+// no startup. Elas divergem em detalhes:
+//
+//   | item              | schema.sql          | SQLAlchemy          |
+//   |-------------------|---------------------|---------------------|
+//   | dinheiro          | DOUBLE              | FLOAT (4 bytes)     |
+//   | defaults          | no banco            | só na aplicação     |
+//   | nome dos índices  | idx_*               | ix_*                |
+//   | nome das FKs      | fk_*                | *_ibfk_N            |
+//
+// Adotamos a versão do `schema.sql`, que é a mais segura: `Double` lê uma
+// coluna FLOAT sem perda, enquanto declarar `Float` sobre uma coluna DOUBLE
+// faria uma migração futura tentar ESTREITAR o tipo e perder precisão.
+//
+// Nada disso muda o comportamento em runtime — Prisma devolve `number` nos
+// dois casos. Só afeta a geração de DDL. Ainda assim, `setup.sh` roda
+// `prisma db pull` e SOBRESCREVE este arquivo com a estrutura real do banco:
+// a verdade é o banco, este arquivo é o ponto de partida.
+// ---------------------------------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// --- Enums (valores exatos do models.py — não traduzir, não acentuar) -------
+
+enum user_role {
+  user
+  admin
+}
+
+enum user_status {
+  pending
+  active
+  suspended
+}
+
+enum reset_status {
+  pending
+  sent
+  rejected
+  used
+  expired
+}
+
+enum item_state {
+  lista
+  backlog
+  gasto
+  lixeira
+}
+
+enum item_origin {
+  planejado
+  avulso
+}
+
+enum item_priority {
+  baixa
+  media
+  alta
+}
+
+// --- Tabelas ---------------------------------------------------------------
+
+model User {
+  id                   Int         @id @default(autoincrement())
+  name                 String      @db.VarChar(120)
+  email                String      @unique @db.VarChar(190)
+  password_hash        String      @db.VarChar(255)
+  role                 user_role   @default(user)
+  status               user_status @default(pending)
+  avatar               String?     @db.Text
+  currency             String      @default("R$") @db.VarChar(8)
+  trash_autoclean_days Int         @default(30)
+  preferences          Json?
+  created_at           DateTime    @default(now()) @db.DateTime(0)
+
+  access_logs    AccessLog[]
+  reset_requests PasswordResetRequest[]
+  categories     Category[]
+  items          Item[]
+
+  @@index([email], map: "idx_users_email")
+  @@map("users")
+}
+
+model AccessLog {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  created_at DateTime @default(now()) @db.DateTime(0)
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_access_user")
+
+  @@index([user_id], map: "idx_access_user")
+  @@map("access_logs")
+}
+
+model PasswordResetRequest {
+  id               Int          @id @default(autoincrement())
+  user_id          Int
+  status           reset_status @default(pending)
+  token            String?      @db.VarChar(255)
+  token_expires_at DateTime?    @db.DateTime(0)
+  created_at       DateTime     @default(now()) @db.DateTime(0)
+  used_at          DateTime?    @db.DateTime(0)
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_reset_user")
+
+  @@index([user_id], map: "idx_reset_user")
+  @@index([token], map: "idx_reset_token")
+  @@map("password_reset_requests")
+}
+
+model Category {
+  id      Int    @id @default(autoincrement())
+  user_id Int
+  name    String @db.VarChar(80)
+
+  user  User   @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_categories_user")
+  items Item[]
+
+  // NÃO existe UNIQUE composto (user_id, name): a unicidade é validada na
+  // aplicação. Não adicione @@unique — dados legados podem ter duplicatas e a
+  // migração falharia.
+  @@index([user_id], map: "idx_categories_user")
+  @@map("categories")
+}
+
+model Item {
+  id          Int    @id @default(autoincrement())
+  user_id     Int
+  category_id Int?
+  name        String @db.VarChar(160)
+
+  // DOUBLE, conforme schema.sql. A conversão para DECIMAL(12,2) é melhoria
+  // posterior, com migração própria (forward-only).
+  estimated_price Float  @default(0)
+  paid_value      Float?
+
+  priority       item_priority?
+  notes          String?        @db.Text
+  payment_method String?        @db.VarChar(40)
+  origin         item_origin?
+  state          item_state     @default(lista)
+  previous_state item_state?
+
+  included_at DateTime  @default(now()) @db.DateTime(0)
+  paid_at     DateTime? @db.DateTime(0)
+  deleted_at  DateTime? @db.DateTime(0)
+
+  // A coluna NÃO tem "ON UPDATE CURRENT_TIMESTAMP": quem atualizava era o
+  // SQLAlchemy (`onupdate=datetime.utcnow`). `@updatedAt` reproduz isso do
+  // lado do cliente, mantendo o mesmo comportamento.
+  updated_at DateTime @updatedAt @db.DateTime(0)
+
+  user     User      @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_items_user")
+  category Category? @relation(fields: [category_id], references: [id], onDelete: SetNull, map: "fk_items_category")
+
+  @@index([user_id], map: "idx_items_user")
+  @@index([state], map: "idx_items_state")
+  @@index([category_id], map: "idx_items_category")
+  @@map("items")
+}

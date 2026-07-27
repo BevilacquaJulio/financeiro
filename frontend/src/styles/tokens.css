@@ -1,0 +1,190 @@
+/* ===========================================================================
+   CAMADA 1 — TOKENS PRIMITIVOS
+   ---------------------------------------------------------------------------
+   Identidade v3 — "Ledger". Preto real + azul neon.
+
+   O sistema e um livro-caixa: cada item nasce planejado, vira gasto, volta,
+   ou cai na lixeira. Tudo aqui deriva disso — inclusive a escolha das fontes.
+
+   Componente NUNCA escreve cor literal. Trocar uma variavel daqui repinta a
+   interface inteira, que e o que faz o accent por usuario funcionar.
+   =========================================================================== */
+
+:root {
+  /* --- Superficies ------------------------------------------------------
+     Preto real no fundo, como pedido. A escada de elevacao nao vem de
+     clarear muito o cinza — vem de um azul cada vez menos escuro. Isso
+     mantem o preto sendo preto e ainda assim da volume ao painel. */
+  --bg: #000000;
+  --surface: #070a10;
+  --surface-2: #0d1119;
+  --surface-3: #151a25;
+
+  --border: #1c2230;
+  --border-strong: #2a3242;
+
+  /* --- Texto (branco levemente azulado, para nao brigar com o accent) ---- */
+  --text: #eaf2ff;
+  --muted: #8fa3bf;
+  --muted-2: #5c6b82;
+
+  /* --- Azul neon --------------------------------------------------------
+     #2e90ff e o azul eletrico do sistema: 6.18:1 sobre --surface.
+     --accent-hi e a ponta clara, usada so em brilho, borda-luz e gradiente.
+     Nunca use --accent-hi como cor de texto de corpo: ele existe para luz. */
+  --accent: #2e90ff;
+  --accent-hi: #7dd3ff;
+  --accent-deep: #0b4fd6;
+
+  --accent-dim: rgba(46, 144, 255, 0.14);
+  --accent-glow: rgba(46, 144, 255, 0.45);
+  --accent-bg-1: rgba(46, 144, 255, 0.08);
+  --accent-bg-2: rgba(46, 144, 255, 0.05);
+  --accent-transition: 900ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  --accent-rgb: 46 144 255;
+  --accent-hi-rgb: 125 211 255;
+
+  /* Texto sobre superficie preenchida com o accent. Azul claro pede texto
+     escuro: 6.27:1. Branco em cima daria 2.8:1 e reprovaria. */
+  --on-accent: #000814;
+
+  /* --- Semanticos -------------------------------------------------------
+     Verde e vermelho aqui significam dinheiro entrando e saindo do controle,
+     nao "ok" e "erro" genericos. Por isso o verde e frio, da mesma familia
+     do azul — o painel inteiro pertence a uma paleta so. */
+  --success: #2de3a0;
+  --danger: #ff4d6a;
+  --danger-dim: rgba(255, 77, 106, 0.14);
+  --warning: #ffc53d;
+  --warning-dim: rgba(255, 197, 61, 0.14);
+  --info: #7dd3ff;
+
+  --success-rgb: 45 227 160;
+  --danger-rgb: 255 77 106;
+  --warning-rgb: 255 197 61;
+  --info-rgb: 125 211 255;
+
+  /* --- Tipografia -------------------------------------------------------
+     Tres papeis, tres familias. Cada uma faz uma coisa so:
+
+     DISPLAY  Archivo, no eixo de largura expandido. Grotesca larga le como
+              editorial caro; e o que da a cara. So em titulo e numero grande.
+     CORPO    Inter. Neutra, resolvida, otima em tamanho pequeno de UI.
+     DADOS    JetBrains Mono com tabular-nums. Dinheiro precisa alinhar na
+              virgula — e assim que um livro-caixa de verdade e impresso.
+              Esta e a escolha mais literal ao assunto do sistema. */
+  --font-display: "Archivo", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --fs-2xs: 0.7rem;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.85rem;
+  --fs-md: 0.95rem;
+  --fs-lg: 1.15rem;
+  --fs-xl: 1.6rem;
+  --fs-2xl: 2.4rem;
+  --fs-3xl: 3.2rem;
+
+  --lh-display: 0.98;
+  --lh-heading: 1.2;
+  --lh-body: 1.55;
+  --lh-ui: 1.2;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-black: 800;
+
+  /* Largura variavel do Archivo. 112 e expandido o bastante para ler como
+     display sem virar caricatura. */
+  --wdth-display: 112;
+
+  --tracking-tight: -0.02em;
+  --tracking-tighter: -0.035em;
+  --tracking-wide: 0.02em;
+  --tracking-widest: 0.16em;
+
+  /* --- Raio -------------------------------------------------------------
+     Raio menor que a versao anterior. Canto mais fechado le como instrumento
+     de precisao; canto muito arredondado le como app de consumo. */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* --- Sombra e luz -----------------------------------------------------
+     Sobre preto real, sombra preta some. A profundidade vem de dois lugares:
+     uma linha de luz no topo do objeto e um halo colorido embaixo. */
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgb(255 255 255 / 0.04);
+  --shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgb(255 255 255 / 0.05);
+  --shadow-lift: 0 32px 80px -24px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgb(255 255 255 / 0.04),
+    inset 0 1px 0 rgb(255 255 255 / 0.07);
+
+  /* --- Movimento --------------------------------------------------------
+     Uma curva so no sistema inteiro, em tres velocidades. Curva unica e o
+     que faz interfaces diferentes parecerem o mesmo produto. */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition: 160ms var(--ease);
+  --transition-slow: 420ms var(--ease);
+  --spring: 560ms cubic-bezier(0.16, 1.06, 0.28, 1);
+
+  /* --- Escala de espacamento (base 4px) --------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --page-x: var(--space-8);
+  --page-y: var(--space-7);
+  --section-gap: var(--space-7);
+  --card-pad: var(--space-5);
+  --stack-gap: var(--space-4);
+
+  --touch-min: 44px;
+  --sidebar-w: 268px;
+
+  color-scheme: dark;
+}
+
+/* Tablet ------------------------------------------------------------------ */
+@media (max-width: 900px) {
+  :root {
+    --page-x: var(--space-5);
+    --page-y: var(--space-5);
+    --section-gap: var(--space-6);
+    --card-pad: var(--space-4);
+    --fs-xl: 1.4rem;
+    --fs-2xl: 2rem;
+    --fs-3xl: 2.4rem;
+  }
+}
+
+/* Telefone ----------------------------------------------------------------
+   O respiro horizontal encolhe, mas o vertical NAO acompanha na mesma
+   proporcao: em tela estreita o que falta e largura, nao ar entre secoes. */
+@media (max-width: 560px) {
+  :root {
+    --page-x: var(--space-4);
+    --page-y: var(--space-4);
+    --section-gap: var(--space-5);
+    --card-pad: var(--space-4);
+    --stack-gap: var(--space-3);
+    --fs-2xl: 1.8rem;
+    --fs-3xl: 2rem;
+    --wdth-display: 100;
+  }
+}

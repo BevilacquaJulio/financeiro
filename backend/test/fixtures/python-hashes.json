@@ -1,0 +1,30 @@
+{
+  "simples": {
+    "pw": "Admin@123",
+    "hash": "$2b$12$.7R/dRuG8qvdxV81V4Vv2.J5xSIMx3gTM2Nx42IKMcpokez1VFyCe"
+  },
+  "acentos": {
+    "pw": "Senh@Ácida2026",
+    "hash": "$2b$12$/qpz9XYbLMNLq/ffm3Fb5ObJ1WLpN2silxTZFs9f6KgH5Bz172m76"
+  },
+  "emoji": {
+    "pw": "P@ssw0rd😀xyz",
+    "hash": "$2b$12$IWGTu/JkjVGbraQcqBTo0.2vTrS69d7BwVuGCsHzU6MZEnf2gWeT6"
+  },
+  "limite_71": {
+    "pw": "A@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "hash": "$2b$12$oI/dlb4KHu7fg8BHnMTeUeFPQmsHHmoM9Jrc5CFmDB6qHTe2SqXPW"
+  },
+  "limite_72": {
+    "pw": "A@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "hash": "$2b$12$OnAixGgo45G8h/BYXpAF/uoowJQ2s69kBqcv.cWV9W4mZu0zuq8NS"
+  },
+  "limite_73": {
+    "pw": "A@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "hash": "$2b$12$R/ggjyZcwrhgjpZ8Wp/O0.p6EZWsldrYFVMsDJzwb53b2nRna/4hO"
+  },
+  "corte_multibyte": {
+    "pw": "Aáááááááááááááááááááááááááááááááááááá",
+    "hash": "$2b$12$lYUvkp64T3V66qswJaZ/J.En6nwyA0i.xcqPPcG5aa1j3KZ0UxAIi"
+  }
+}

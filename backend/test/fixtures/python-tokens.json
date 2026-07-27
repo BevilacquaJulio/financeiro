@@ -1,0 +1,11 @@
+{
+  "secret": "fixture-secret-nao-use-em-producao",
+  "valido": {
+    "sub": "1",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzg0OTUzNzA1fQ.DHK2csjJPs7G2N6Lgw9zssurS2r51gwYn0JnQtkbBxc"
+  },
+  "expirado": {
+    "sub": "1",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzg0OTQ2NDQ1fQ.ypaqo_kqRSMT8pfHfBjNf6nPIMw5Ie6ZIKWBr_G1LeY"
+  }
+}
