@@ -224,16 +224,14 @@ function LoginForm({ onError }: { onError: (m: string) => void }) {
         {busy ? 'Entrando…' : 'Entrar'}
       </button>
 
-      {import.meta.env.DEV && (
-        <button
-          type="button"
-          className="btn btn-ghost btn-block"
-          onClick={fillDemoCredentials}
-          disabled={busy}
-        >
-          Usar conta demo
-        </button>
-      )}
+      <button
+        type="button"
+        className="btn btn-ghost btn-block"
+        onClick={fillDemoCredentials}
+        disabled={busy}
+      >
+        Usar conta demo
+      </button>
 
       <div className="auth-links">
         <a href="/forgot">Esqueci minha senha</a>
